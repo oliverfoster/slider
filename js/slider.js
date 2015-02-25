@@ -11,9 +11,6 @@ define(function(require) {
         },
 
         setupQuestion: function() {
-            this.model.set({
-                _selectedAnswer: 0
-            });
             var totalRange = this.model.get('_range')._max - this.model.get('_range')._min;
             this.model.set({
                 _totalRange: totalRange
@@ -22,6 +19,7 @@ define(function(require) {
 
         onQuestionRendered: function() {
             this.setupSliderMarkers();
+            this.setHandleStartPosition(this.model.get('_totalRange'));
             this.setReadyStatus();
         },
 
@@ -29,6 +27,14 @@ define(function(require) {
             var totalRange = this.model.get('_totalRange');
             this.$('.slider-marker').css({
                 width: (100 / totalRange) + '%'
+            });
+        },
+
+        setHandleStartPosition: function(totalRange) {
+            var startPosition = Math.round(totalRange / 2);
+            this.updateSliderState(startPosition);
+            this.model.set({
+                _selectedAnswer: startPosition
             });
         },
 
@@ -59,16 +65,20 @@ define(function(require) {
             var percentage = (left / event.data.width) * 100;
             var index = Math.round((percentage / 100) * this.model.get('_totalRange'));
 
-            this.moveToPosition(index);
-            this.selectSliderMarkers(index);
-            this.updateSliderIndicator(index);
             this.selectItem(index);
+            this.updateSliderState(index);
         },
 
         onDragReleased: function (event) {
             event.preventDefault();
             $(document).off('mousemove touchmove');
             this.$('.slider-indicator').removeClass('show');
+        },
+
+        updateSliderState: function(index) {
+            this.moveToPosition(index);
+            this.selectSliderMarkers(index);
+            this.updateSliderIndicator(index);
         },
 
         moveToPosition: function(index) {
@@ -116,12 +126,7 @@ define(function(require) {
         // Used by the question to reset the question when revisiting the component
         resetQuestionOnRevisit: function() {
             this.setAllItemsEnabled(true);
-            this.deselectAllItems();
             this.resetQuestion();
-        },
-
-        deselectAllItems: function() {
-            this.selectItem(0);
         },
 
         // Use to check if the user is allowed to submit the question
@@ -173,28 +178,20 @@ define(function(require) {
         // This is triggered when the reset button is clicked so it shouldn't
         // be a full reset
         resetQuestion: function() {
-            this.moveToPosition(0);
-            this.selectSliderMarkers(0);
             this.selectItem(0);
-            this.updateSliderIndicator(0);
+            this.updateSliderState(0);
         },
 
         // Used by the question to display the correct answer to the user
         showCorrectAnswer: function() {
-            this.showAnswer(this.model.get('_correctAnswer'));
+            this.updateSliderState(this.model.get('_correctAnswer'));
         },
 
         // Used by the question to display the users answer and
         // hide the correct answer
         // Should use the values stored in storeUserAnswer
         hideCorrectAnswer: function() {
-            this.showAnswer(this.model.get('_userAnswer'));
-        },
-
-        showAnswer: function(index) {
-            this.selectSliderMarkers(index);
-            this.moveToPosition(index);
-            this.updateSliderIndicator(index);
+            this.updateSliderState(this.model.get('_userAnswer'));
         }
 
     });

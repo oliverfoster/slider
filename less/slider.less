@@ -1,4 +1,4 @@
-@slider-handle-size: 24px;
+@slider-handle-size: 20px;
 @slider-indicator-size: 34px;
 
 .slider-component {
@@ -22,6 +22,10 @@
 		}
 	}
 
+	.slider-range-labels {
+		margin: 0 ((@slider-handle-size - 4) / 2) 20px;
+	}
+
 	.slider-range-min {
 		float: left;
 		text-align: left;
@@ -34,7 +38,7 @@
 
 	.slider-container {
 		height: (@slider-handle-size + 4);
-		margin: 40px (@slider-handle-size / 2);
+		margin: 45px (@slider-handle-size / 2) 0;
 	}
 
 	.slider-bar {
