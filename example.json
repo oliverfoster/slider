@@ -1,6 +1,6 @@
 {
-    "_id":"c-110",
-    "_parentId":"b-55",
+    "_id":"c-05",
+    "_parentId":"b-05",
     "_type":"component",
     "_component":"slider",
     "_classes":"",
@@ -11,13 +11,13 @@
     "instruction": "",
     "_attempts": 2,
     "_questionWeight":1,
-    "_showNumber": true,
-    "_showScaleIndicator": true,
     "labelStart": "incomplete",
     "labelEnd": "complete",
-    "_scaleStart": 1,
-    "_scaleEnd": 10,
-    "_correctAnswer": "",
+    "_range": {
+        "_min": 0,
+        "_max": 10
+    },
+    "_correctAnswer": 5,
     "_correctRange": {
         "_bottom": 4,
         "_top": 9

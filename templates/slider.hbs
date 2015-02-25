@@ -1,34 +1,34 @@
 <div class="slider-inner component-inner" role="region" aria-label="{{_globals._components._slider.ariaRegion}}">
     {{> component this}}
     <div class="slider-widget component-widget {{#unless _isEnabled}} disabled {{#if _isComplete}} complete submitted show-user-answer {{#if _isCorrect}}correct{{/if}} {{/if}} {{/unless}}">
-        <div class="slider-holder component-holder clearfix">
-            <div class="slider-scale-labels component-scale-start">
-                <div class="slider-scale-start">{{labelStart}}</div>
-                <div class="slider-scale-end">{{labelEnd}}</div>
-            </div>
-            <div class="slider-scaler component-scaler component-item-color">
-                <div class="slider-modelranges"></div>
-                <div class="slider-markers"></div>
-                <div class="slider-answer component-item-color component-item-text-color"></div>
-                <div class="slider-scale-marker component-item-color component-item-text-color"></div>
-            </div>
-            <div class="slider-background component-background">
-                <div class="slider-item component-item {{#unless _isEnabled}}{{#if correct}}correct{{else}}incorrect{{/if}}{{/unless}}">
-                    <div class="slider-sliderange component-sliderange">
-                        <a href="#" class="slider-handle component-item-color component-item-text-color" role="slider" aria-label="{{_globals._accessibility._ariaLabels.sliderHandle}}"></a>
-                        <div class="slider-bar component-item-color component-bar"></div>
-                    </div>
-                    <div class="slider-outer-bar component-outer-bar">
-                    <div class="slider-item-state component-item-state">
-                        <div class="slider-icon slider-correct-icon icon icon-tick"></div>
-                        <div class="slider-icon slider-incorrect-icon icon icon-cross"></div>
-                    </div>
-                    </div>
+    	
+    	<div class="slider-range-labels">
+    		<div class="slider-range-labels-inner clearfix">
+    			<div class="slider-range-min">
+    				<span>{{_range._min}}</span>
+    			</div>
+    			<div class="slider-range-max">
+    				<span>{{_range._max}}</span>
+    			</div>
+    		</div>
+    	</div>
 
-                </div>
-            </div>
-        </div>
-        <div class="buttons" role="button">
-        </div>
+	    <div class="slider-container">
+	    	<div class="slider-bar">
+		    	<a href="#" class="slider-handle"></a>
+		    	<div class="slider-indicator">
+		    		<span class="slider-indicator-number">0<span>
+		    	</div>
+		    	<div class="slider-markers">
+		    		{{#times _totalRange}}
+		    			<div class="slider-marker"></div>
+		    		{{/times}}
+		    	</div>
+	    	</div>
+	    </div>
+
+	    <div class="buttons">
+	    </div>
+    
     </div>
 </div>
