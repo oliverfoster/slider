@@ -11,17 +11,15 @@
     "instruction": "",
     "_attempts": 2,
     "_questionWeight":1,
-    "labelStart": "incomplete",
-    "labelEnd": "complete",
+    "_labels": {
+      "_min": "Incomplete",
+      "_max": "Complete"
+    },
     "_range": {
         "_min": 0,
         "_max": 10
     },
     "_correctAnswer": 5,
-    "_correctRange": {
-        "_bottom": 4,
-        "_top": 9
-    },
     "_buttons": {
       "_submit": {
         "buttonText": "Submit",
