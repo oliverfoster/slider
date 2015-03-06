@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "/js/slider.js",
   "_isSingleWidth": true,
-  "_isFullWidth": false,
+  "_isFullWidth": true,
   "displayName" : "Slider",
   "_component" : "slider",
   "description": "A question component that allows the learner to position a slider on scale"
