@@ -1,7 +1,7 @@
 define(function(require) {
     var QuestionView = require('coreViews/questionView');
     var Adapt = require('coreJS/adapt');
-    require('components/slider/js/rangeslider');
+    require('component/slider/js/rangeslider');
 
     var Slider = QuestionView.extend({
 
