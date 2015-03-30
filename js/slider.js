@@ -1,108 +1,42 @@
 define(function(require) {
     var QuestionView = require('coreViews/questionView');
     var Adapt = require('coreJS/adapt');
+    require('components/slider/js/rangeslider');
 
     var Slider = QuestionView.extend({
 
         events: {
-            'click .slider-handle': 'preventEvent',
-            'mousedown .slider-handle': 'onHandlePressed',
-            'touchstart .slider-handle':'onHandlePressed'
+            'input .slider-range': 'onSliderRangeChanged'
         },
 
         setupQuestion: function() {
-            var totalRange = this.model.get('_range')._max - this.model.get('_range')._min;
-            this.model.set({
-                _totalRange: totalRange
-            });
         },
 
         onQuestionRendered: function() {
-            this.setupSliderMarkers();
-            this.setHandleStartPosition(this.model.get('_totalRange'));
+            var that = this;
             this.setReadyStatus();
-        },
+            this.$('input[type="range"]').rangeslider({
+                polyfill: false,
+                rangeClass: 'rangeslider',
+                fillClass: 'rangeslider__fill',
+                handleClass: 'rangeslider__handle',
 
-        setupSliderMarkers: function() {
-            var totalRange = this.model.get('_totalRange');
-            this.$('.slider-marker').css({
-                width: (100 / totalRange) + '%'
+                onInit: function() {
+                },
+
+                onSlide: function(position, value) {
+                    that.onSliderRangeChanged(value);
+                },
+
+                onSlideEnd: function(position, value) {
+                    that.onSliderRangeChanged(value);
+                }
             });
         },
 
-        setHandleStartPosition: function(totalRange) {
-            var startPosition = Math.round(totalRange / 2);
-            this.updateSliderState(startPosition);
-            this.model.set({
-                _selectedAnswer: startPosition
-            });
-        },
-
-        preventEvent: function(event) {
-            event.preventDefault();
-        },
-
-        onHandlePressed: function (event) {
-            event.preventDefault();
-            if (!this.model.get("_isEnabled") || this.model.get("_isSubmitted")) return;
-
-            var eventData = {
-                width: this.$('.slider-bar').width(),
-                offsetLeft: this.$('.slider-bar').offset().left
-            };
-
-            this.$('.slider-indicator').addClass('show');
-
-            $(document).on('mousemove touchmove', eventData, _.bind(this.onHandleDragged, this));
-            $(document).one('mouseup touchend', eventData, _.bind(this.onDragReleased, this));
-        },
-
-        onHandleDragged: function (event) {
-            event.preventDefault();
-            var left = (event.pageX || event.originalEvent.touches[0].pageX) - event.data.offsetLeft;
-            left = Math.max(Math.min(left, event.data.width), 0);
-
-            var percentage = (left / event.data.width) * 100;
-            var index = Math.round((percentage / 100) * this.model.get('_totalRange'));
-
-            this.selectItem(index);
-            this.updateSliderState(index);
-        },
-
-        onDragReleased: function (event) {
-            event.preventDefault();
-            $(document).off('mousemove touchmove');
-            this.$('.slider-indicator').removeClass('show');
-        },
-
-        updateSliderState: function(index) {
-            this.moveToPosition(index);
-            this.selectSliderMarkers(index);
-            this.updateSliderIndicator(index);
-        },
-
-        moveToPosition: function(index) {
-            var widthIncrement = 100 / this.model.get('_totalRange');
-            var newPosition = widthIncrement * index;
-            this.$('.slider-handle, .slider-indicator').css({
-                left: newPosition + '%'
-            });
-        },
-
-        selectItem: function(index) {
-            this.model.set({
-                _selectedAnswer: index
-            });
-        },
-
-        selectSliderMarkers: function(itemIndex) {
-            var $sliderMarker = this.$('.slider-marker');
-            $sliderMarker.removeClass('selected');
-            $sliderMarker.slice(0, itemIndex).addClass('selected');
-        },
-
-        updateSliderIndicator: function(index) {
-            this.$('.slider-indicator-number').html(index);
+        onSliderRangeChanged: function(value) {
+            this.model.set({_selectedAnswer: value});
+            this.$('.slider-range-current-value-number').html(value);
         },
 
         // Used by question to disable the question during submit and complete stages
@@ -116,11 +50,15 @@ define(function(require) {
         },
         
         setAllItemsEnabled: function(isEnabled) {
+            console.log(isEnabled);
             if (isEnabled) {
                 this.$('.slider-widget').removeClass('disabled');
+                this.$('input[type="range"]').prop('disabled', false);
             } else {
                 this.$('.slider-widget').addClass('disabled');
+                this.$('input[type="range"]').prop('disabled', true);
             }
+            this.$('input[type="range"]').rangeslider('update');
         },
 
         // Used by the question to reset the question when revisiting the component
@@ -152,23 +90,21 @@ define(function(require) {
 
         //This preserve the state of the users answers for returning or showing the users answer
         storeUserAnswer: function() {
-            this.model.set('_userAnswer', this.model.get('_selectedAnswer'));
+            var userAnswer = this.model.get('_selectedAnswer');
+            this.model.set({
+                _userAnswer: userAnswer
+            });
         },
 
         // Used by the question to determine if the question is incorrect or partly correct
         // Should return a boolean
         isPartlyCorrect: function() {
-            if (this.model.get('_selectedAnswer') == this.model.get('_correctAnswer')) {
-                return true;
-            } else {
-                return false;
-            }
+            return false;
         },
 
         // Used by the question view to reset the stored user answer
         resetUserAnswer: function() {
             this.model.set({
-                _selectedAnswer: 0,
                 _userAnswer: ''
             });
         },
@@ -178,20 +114,21 @@ define(function(require) {
         // This is triggered when the reset button is clicked so it shouldn't
         // be a full reset
         resetQuestion: function() {
-            this.selectItem(0);
-            this.updateSliderState(0);
+            this.$('input[type="range"]').val(5).change();
         },
 
         // Used by the question to display the correct answer to the user
         showCorrectAnswer: function() {
-            this.updateSliderState(this.model.get('_correctAnswer'));
+            var correctAnswer = this.model.get('_correctAnswer');
+            this.$('input[type="range"]').val(correctAnswer).change();
         },
 
         // Used by the question to display the users answer and
         // hide the correct answer
         // Should use the values stored in storeUserAnswer
         hideCorrectAnswer: function() {
-            this.updateSliderState(this.model.get('_userAnswer'));
+            var userAnswer = this.model.get('_userAnswer');
+            this.$('input[type="range"]').val(userAnswer).change();
         }
 
     });

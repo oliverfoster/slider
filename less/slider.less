@@ -1,29 +1,21 @@
-@slider-handle-size: 20px;
-@slider-indicator-size: 34px;
-
 .slider-component {
 
-	.slider-widget {
-
-		&.disabled {
-
-			.slider-handle {
-				display: none;
-			}
-
-			.slider-marker {
-				transition: all 0.2s ease-in;
-			}
-
-			.slider-indicator {
-				transform: scale(1);
-				transition: all 0.2s ease-in;
-			}
-		}
+	.slider-range-current-value {
+		text-align: center;
+		padding-top: 10px
 	}
 
-	.slider-range-labels {
-		margin: 0 ((@slider-handle-size - 4) / 2) 20px;
+	.slider-range-current-value-text {
+		color: @item-color;
+	}
+
+	.slider-range-current-value-number {
+		color: @item-selected-color;
+		  font-weight: bold;
+	}
+
+	.slider-container {
+		padding: 20px 0;
 	}
 
 	.slider-range-min {
@@ -34,108 +26,6 @@
 	.slider-range-max {
 		float: right;
 		text-align: right;
-	}
-
-	.slider-container {
-		height: (@slider-handle-size + 4);
-		margin: 45px (@slider-handle-size / 2) 0;
-	}
-
-	.slider-bar {
-		position: relative;
-		height: 4px;
-		top: (@slider-handle-size / 2);
-		background-color: #C8C8C8;
-	}
-
-	.slider-handle {
-		position: absolute;
-		height: @slider-handle-size;
-		width: @slider-handle-size;
-		left: 0;
-		top: 50%;
-		margin-left: -(@slider-handle-size / 2);
-		margin-top: -(@slider-handle-size / 2);
-		background-color: @item-color;
-		border-radius: 50%;
-		z-index: 2;
-	}
-
-	.slider-indicator {
-		position: absolute;
-		height: @slider-indicator-size;
-		width: @slider-indicator-size;
-		left: 0;
-		top: -(@slider-indicator-size);
-		margin-left: -(@slider-indicator-size / 2);
-		margin-top: -(@slider-indicator-size / 2);
-		background-color: @item-color;
-		color: @item-text-color;
-		border-radius: 50%;
-		z-index: 2;
-		text-align: center;
-		line-height: @slider-indicator-size;
-
-		transform: scale(0);
-		transform-origin: bottom;
-		transition: transform 0.2s ease-in;
-
-		&.show {
-			transform: scale(1);
-		}
-	}
-
-	.slider-indicator::after {
-		content: "";
-		width: 0;
-		height: 0;
-		border-left: 10px solid transparent;
-		border-right: 10px solid transparent;
-		border-top: 10px solid @item-color;
-		position: absolute;
-		bottom: -6px;
-		left: 50%;
-		margin-left: -10px;
-	}
-
-	.slider-indicator-number {
-
-	}
-
-	.slider-markers {
-		height: 100%;
-	}
-
-	.slider-marker {
-		position: relative;
-		height: 100%;
-		background-color: #C8C8C8;
-		float: left;
-
-		&.selected {
-			background-color: @item-color;
-		}
-	}
-
-	.slider-markers::after, 
-	.slider-marker::after {
-		position: absolute;
-		content: "";
-		display: block;
-		width: 2px;
-		height: (@slider-handle-size / 2);
-		top: 50%;
-		margin-top: -(@slider-handle-size / 4);
-		background-color: @item-color;
-		z-index: 1;
-	}
-
-	.slider-markers::after {
-		left: 0;
-	}
-
-	.slider-marker::after {
-		right: 0;
 	}
 
 }

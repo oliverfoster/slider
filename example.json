@@ -10,15 +10,16 @@
     "body":"Question text here",
     "instruction": "",
     "_attempts": 2,
-    "_questionWeight":1,
     "_labels": {
-      "_min": "Incomplete",
-      "_max": "Complete"
+      "_min": "Min",
+      "_max": "Max",
+      "_selected": "Selected"
     },
     "_range": {
-        "_min": 0,
-        "_max": 10
+      "_min": 0,
+      "_max": 10
     },
+    "_step": 1,
     "_correctAnswer": 5,
     "_buttons": {
       "_submit": {

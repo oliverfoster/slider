@@ -1,22 +1,8 @@
 <div class="slider-inner component-inner" role="region" aria-label="{{_globals._components._slider.ariaRegion}}">
     {{> component this}}
     <div class="slider-widget component-widget {{#unless _isEnabled}} disabled {{#if _isComplete}} complete submitted show-user-answer {{#if _isCorrect}}correct{{/if}} {{/if}} {{/unless}}">
-    	
-	    <div class="slider-container">
-	    	<div class="slider-bar">
-		    	<a href="#" class="slider-handle"></a>
-		    	<div class="slider-indicator">
-		    		<span class="slider-indicator-number">0<span>
-		    	</div>
-		    	<div class="slider-markers">
-		    		{{#times _totalRange}}
-		    			<div class="slider-marker"></div>
-		    		{{/times}}
-		    	</div>
-	    	</div>
-	    </div>
 
-	    <div class="slider-range-labels">
+    	<div class="slider-range-labels">
     		<div class="slider-range-labels-inner clearfix">
     			<div class="slider-range-min">
     				<span>{{_labels._min}}</span>
@@ -26,6 +12,14 @@
     			</div>
     		</div>
     	</div>
+    	
+	    <div class="slider-container">
+	    	<input type="range" min="{{_range._min}}" max="{{_range._max}}" step="{{_step}}">
+	    	<div class="slider-range-current-value">
+	    		<span class="slider-range-current-value-text">{{_labels._selected}}</span>
+	    		<span class="slider-range-current-value-number"></span>
+	    	</div>
+	    </div>
 
 	    <div class="buttons">
 	    </div>
