@@ -82,12 +82,6 @@ define(function(require) {
             }
         },
 
-        // Used to set the score based upon the _questionWeight
-        setScore: function() {
-            var score = this.model.get("_questionWeight");
-            this.model.set('_score', score);
-        },
-
         //This preserve the state of the users answers for returning or showing the users answer
         storeUserAnswer: function() {
             var userAnswer = this.model.get('_selectedAnswer');
