@@ -1,7 +1,6 @@
 define(function(require) {
     var QuestionView = require('coreViews/questionView');
     var Adapt = require('coreJS/adapt');
-    require('component/slider/js/rangeslider');
 
     var Slider = QuestionView.extend({
 
@@ -9,12 +8,8 @@ define(function(require) {
             'input .slider-range': 'onSliderRangeChanged'
         },
 
-        setupQuestion: function() {
-        },
-
         onQuestionRendered: function() {
             var that = this;
-            this.setReadyStatus();
             this.$('input[type="range"]').rangeslider({
                 polyfill: false,
                 rangeClass: 'rangeslider',
@@ -22,6 +17,7 @@ define(function(require) {
                 handleClass: 'rangeslider__handle',
 
                 onInit: function() {
+                    that.setReadyStatus();
                 },
 
                 onSlide: function(position, value) {
