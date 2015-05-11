@@ -46,7 +46,6 @@ define(function(require) {
         },
         
         setAllItemsEnabled: function(isEnabled) {
-            console.log(isEnabled);
             if (isEnabled) {
                 this.$('.slider-widget').removeClass('disabled');
                 this.$('input[type="range"]').prop('disabled', false);
@@ -119,6 +118,11 @@ define(function(require) {
         hideCorrectAnswer: function() {
             var userAnswer = this.model.get('_userAnswer');
             this.$('input[type="range"]').val(userAnswer).change();
+        },
+
+        remove: function() {
+            this.$('input[type="range"]').rangeslider('destroy');
+            Backbone.View.prototype.remove.apply(this, arguments);
         }
 
     });
